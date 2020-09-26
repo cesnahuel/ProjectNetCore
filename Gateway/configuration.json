@@ -1,0 +1,140 @@
+{
+  "ReRoutes": [
+    /*Auth*/
+    {
+      "DownstreamPathTemplate": "/api/Authenticate/login",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 63978
+        }
+      ],
+      "UpstreamPathTemplate": "/user/authenticate",
+      "UpstreamHttpMethod": [ "Post" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/Authenticate",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 63978
+        }
+      ],
+      "UpstreamPathTemplate": "/user",
+      "UpstreamHttpMethod": [ "Get" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "ApiSecurity",
+        "AllowedScopes": []
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/Authenticate/All",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 63978
+        }
+      ],
+      "UpstreamPathTemplate": "/user/all",
+      "UpstreamHttpMethod": [ "Get" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "ApiSecurity",
+        "AllowedScopes": []
+      }
+    },
+    /*Product*/
+    {
+      "DownstreamPathTemplate": "/api/Product/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 57053
+        }
+      ],
+      "UpstreamPathTemplate": "/product/{id}",
+      "UpstreamHttpMethod": [ "Get", "Delete" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "ApiSecurity",
+        "AllowedScopes": []
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/Product/",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 57053
+        }
+      ],
+      "UpstreamPathTemplate": "/product/",
+      "UpstreamHttpMethod": [ "Get", "Post" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "ApiSecurity",
+        "AllowedScopes": []
+      }
+    },
+
+    /*Client*/
+    {
+      "DownstreamPathTemplate": "/api/Client/All",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 57053
+        }
+      ],
+      "UpstreamPathTemplate": "/client/all",
+      "UpstreamHttpMethod": [ "Get" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "ApiSecurity",
+        "AllowedScopes": []
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/Client",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 57053
+        }
+      ],
+      "UpstreamPathTemplate": "/client",
+      "UpstreamHttpMethod": [ "Post" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "ApiSecurity",
+        "AllowedScopes": []
+      }
+    }
+    /**/
+  ],
+  "GlobalConfiguration": {
+    "UseServiceDiscovery": false
+  }
+}
+
+/*
+    {
+      "DownstreamPathTemplate": Route de la api destino,
+      "DownstreamScheme": protocolo destino,
+      "DownstreamHostAndPorts": [
+        {
+          "Host": Dominio del servidor destino,  
+          "Port": Puerto del servidor destino
+        }
+      ],
+      "UpstreamPathTemplate": Route origen del endpoint, a la cual hay que llamar (GATEWAY),
+      "UpstreamHttpMethod": [ Protocolo origen (GATEWAY) ] ,
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer", SIEMPRE VA (palabra clave de Autenticacion)
+        "AllowedScopes": []
+      }
+    }
+
+    */
