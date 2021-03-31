@@ -1,14 +1,19 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace BusinessService.Domain
+namespace CatalogApi.Domain
 {
     public class ProductDTO
     {
-        public int IdProduct { get; set; }
+        public int idProduct { get; set; }
+        public string ShortDescription { get; set; }
         public string Description { get; set; }
-        public CategoryDTO Category { get; set; }
+        public decimal UnitPrice { get; set; }
+        public int UnitStock { get; set; }
+        public int CategoryId { get; set; }
     }
 }

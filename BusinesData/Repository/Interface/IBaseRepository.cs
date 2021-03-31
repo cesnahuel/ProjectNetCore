@@ -1,11 +1,11 @@
-﻿using BusinessData.Model;
+﻿using CatalogData.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BusinessData.Repository.Interface
+namespace CatalogData.Repository.Interface
 {
     /// <summary>
     /// Interfaz generica para realizar llamadas asincronicas
@@ -25,8 +25,8 @@ namespace BusinessData.Repository.Interface
         void Update(T entity);
         Task<T> UpdateAsync(T entity, object key);
 
-        IEnumerable<T> GetAll();
-        Task<IEnumerable<T>> GetAllAsync();
+        List<T> GetAll();
+        Task<List<T>> GetAllAsync();
 
         IEnumerable<T> GetWhere(Expression<Func<T, bool>> predicate);
 

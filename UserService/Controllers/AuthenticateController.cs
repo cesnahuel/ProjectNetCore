@@ -2,38 +2,31 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using UserService.Domain;
-using UserService.Service;
+using Microsoft.Extensions.Logging;
+using UserApi.Domain;
+using UserApi.Service;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace UserService.Controllers
+namespace UserApi.Controllers
 {
+    [ApiController]
     [Route("api/[controller]")]
     public class AuthenticateController : ControllerBase
     {
 
-        private readonly IAuthenticateService _categoryRepository;
+        private readonly IAuthenticateService _authenticateService;
+        private readonly IMapper _mapper;
+        private readonly ILogger<AuthenticateController> _logger;
 
-        public AuthenticateController(IAuthenticateService categoryRepository)
+        public AuthenticateController(IAuthenticateService authenticateService, IMapper mapper, ILogger<AuthenticateController> logger)
         {
-            _categoryRepository = categoryRepository;
-        }
-
-        // GET: api/<controller>
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
-
-        [HttpGet("All")]
-        public IEnumerable<Login> GetAll()
-        {
-            var user = _categoryRepository.GetAll();
-            return user;
+            _authenticateService = authenticateService;
+            _mapper = mapper;
+            _logger = logger;
         }
 
         /// <summary>
@@ -44,17 +37,22 @@ namespace UserService.Controllers
         /// </returns>
         [AllowAnonymous]
         [HttpPost("login")]
-        public IActionResult Authenticate([FromBody] Login login)
+        public async Task<IActionResult> Authenticate(AuthDto login)
         {
-            if (login == null)
-                return BadRequest("Invalid userLogin request");
+            _logger.LogInformation("Init Authenticate");
 
-            var token = _categoryRepository.Authenticate(login.username, login.password);
+            if (login == null)
+                return BadRequest(new { message = "Invalid userLogin request" });
+
+            var token = await _authenticateService.Authenticate(login.username, login.password);
 
             if (token == null)
                 return BadRequest(new { message = "Username of password incorrect" });
+            
+            var result = _mapper.Map<TokenDto>(token);
 
-            return Ok(token);
+            _logger.LogInformation("End Authenticate");
+            return Ok(result);
         }
 
     }

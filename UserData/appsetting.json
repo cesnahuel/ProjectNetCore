@@ -1,0 +1,5 @@
+{
+  "ConnectionString": {
+    "dbUser": "Server=localhost;Database=ApiTestUser;Trusted_Connection=True;user id=sa;password=m3M1r0%0R1m3M;"
+  }
+}

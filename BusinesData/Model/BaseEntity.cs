@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace BusinessData.Model
+namespace CatalogData.Model
 {
     public class BaseEntity
     {

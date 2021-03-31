@@ -1,5 +1,5 @@
-﻿using BusinessData.Model;
-using BusinessData.Repository.Interface;
+﻿using CatalogData.Model;
+using CatalogData.Repository.Interface;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BusinessData.Repository.Concrete
+namespace CatalogData.Repository.Concrete
 {
     /// <summary>
     /// Implementacion de las funciones genericas para interactuar con la Base de Datos
@@ -16,9 +16,9 @@ namespace BusinessData.Repository.Concrete
     /// <typeparam name="T"></typeparam>
     public class BaseRepository<T> : IBaseRepository<T> where T : BaseEntity
     {
-        private readonly BusinessContext _db;
+        private readonly CatalogContext _db;
 
-        public BaseRepository(BusinessContext db)
+        public BaseRepository(CatalogContext db)
         {
             _db = db;
         }
@@ -48,7 +48,7 @@ namespace BusinessData.Repository.Concrete
             _db.SaveChanges();
         }
 
-        public virtual IEnumerable<T> GetAll()
+        public virtual List<T> GetAll()
         {
             return _db.Set<T>().ToList();
         }
@@ -91,7 +91,7 @@ namespace BusinessData.Repository.Concrete
             return await _db.Set<T>().FindAsync(id);
         }
 
-        public virtual async Task<IEnumerable<T>> GetAllAsync()
+        public virtual async Task<List<T>> GetAllAsync()
         {
             return await _db.Set<T>().ToListAsync();
         }
@@ -99,6 +99,8 @@ namespace BusinessData.Repository.Concrete
 
         public virtual async Task<int> AddAsync(T entity)
         {
+            entity.CreatedDate = DateTime.Now;
+            entity.ModifiedDate = DateTime.Now;
             _db.Set<T>().Add(entity);
             return await _db.SaveChangesAsync();
         }
@@ -115,6 +117,7 @@ namespace BusinessData.Repository.Concrete
             T exist = await _db.Set<T>().FindAsync(key);
             if (exist != null)
             {
+                entity.ModifiedDate = DateTime.Now;
                 _db.Entry(exist).CurrentValues.SetValues(entity);
                 await _db.SaveChangesAsync();
             }

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
-namespace BusinessData.Model
+namespace CatalogData.Model
 {
     public class Category
     {
@@ -13,6 +13,7 @@ namespace BusinessData.Model
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int IdCategory { get; set; }
         public string Name { get; set; }
+        public string Description { get; set; }
         public virtual ICollection<Product> Products { get; set; }
     }
 }
